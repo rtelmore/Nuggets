@@ -1,0 +1,24 @@
+Ryan Elmore
+A simple web app for computing the Nuggets Playoff Probability
+Copyright (c) 2013, under the Simplified BSD License.
+For more information on FreeBSD see: http://www.opensource.org/licenses/bsd-license.php 
+
+Installation:
+1. Unzip file in whatever directory is convenient, e.g. Desktop
+2. Start R
+3. Install the following packages:
+	+ shiny
+	+ lubridate
+	+ XML
+4. load the shiny library
+	> library(shiny)
+5. set the working directory in R
+	> setwd("C:/Users/Tommy/Desktop/")  #only an example; put it wherever
+6. Run the app from R
+	> runApp() 
+7. This should start the app in your browser on a random port.
+
+To close the app:
+1. Close browser window
+2. Hit escape in R console
+3. Quit R

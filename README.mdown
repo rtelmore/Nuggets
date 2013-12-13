@@ -1,0 +1,25 @@
+## This is a collection of stuff I did for a friend who works for the Nuggets. 
+
+I take no blame (nor do I assume any credit) if you bet your house on a team making the playoffs and it doesn't happen (or does).  
+
+### Contact
+
+Ryan Elmore
+
+- Email: rtelmore@gmail.com
+
+### Installation
+
+Instructions for installing the shiny app are given in the appropriate directory.
+
+### History
+
+2013-Dec-13
+
+- Uploaded original source code
+
+### License
+
+Copyright (c) 2013, under the Simplified BSD License.
+For more information on FreeBSD see: http://www.opensource.org/licenses/bsd-license.php
+All rights reserved.
