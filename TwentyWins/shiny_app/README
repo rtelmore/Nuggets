@@ -3,6 +3,8 @@ A simple web app for computing the Nuggets Playoff Probability
 Copyright (c) 2013, under the Simplified BSD License.
 For more information on FreeBSD see: http://www.opensource.org/licenses/bsd-license.php 
 
+Acknowledgement: Thanks to Damian Wandler (@dvwandler) for setting up the skeleton of this shiny app. 
+
 Installation:
 1. Unzip file in whatever directory is convenient, e.g. Desktop
 2. Start R
