@@ -15,7 +15,7 @@ Installation:
 4. load the shiny library
 	> library(shiny)
 5. set the working directory in R
-	> setwd("C:/Users/Tommy/Desktop/")  #only an example; put it wherever
+	> setwd("/path/to/the/app/")  #only an example; put it wherever
 6. Run the app from R
 	> runApp() 
 7. This should start the app in your browser on a random port.
