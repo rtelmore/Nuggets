@@ -63,4 +63,7 @@ league <- league[order(-league[, 2]), ]
 rm(team.stats)
 
 load(file = paste(.project.path, "data/season.to.date.RData", sep = ""))
+
+## If file exists, load it.  Otherwise, create object
+load(file = paste(.project.path, "data/playoff.season.to.date.RData", sep = ""))
 # team.stats.2014[['SAS']][, "AvgDiff" ] <- mean(team.stats.2014[['SAS']][, "Diff" ])

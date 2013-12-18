@@ -93,6 +93,10 @@ ggsave(file = paste(.project.path, "fig/league_E_facet_", as.Date(Sys.Date()), "
 playoff.sim <- PlayoffsTheMonteCarloWay(league, k = 10000)
 playoff.sim <- playoff.sim[order(-playoff.sim$p), ]
 
+playoff.season.to.date <- rbind(playoff.season.to.date, playoff.sim)
+save("playoff.season.to.date", 
+     file = paste(.project.path, "data/playoff.season.to.date.RData", sep = ""))
+
 pdf(paste(.project.path, 
           "fig/league_probs_sim_", 
           as.Date(Sys.Date()), 
