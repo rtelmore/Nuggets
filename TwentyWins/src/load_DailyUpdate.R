@@ -65,5 +65,10 @@ rm(team.stats)
 load(file = paste(.project.path, "data/season.to.date.RData", sep = ""))
 
 ## If file exists, load it.  Otherwise, create object
-load(file = paste(.project.path, "data/playoff.season.to.date.RData", sep = ""))
+if(file.exists(paste(.project.path, "data/playoff.season.to.date.RData", sep = ""))){
+  load(file = paste(.project.path, "data/playoff.season.to.date.RData", sep = ""))  
+} else {
+  playoff.season.to.date <- data.frame(p = NA, v = NA, conf = NA, div = NA)
+}
+
 # team.stats.2014[['SAS']][, "AvgDiff" ] <- mean(team.stats.2014[['SAS']][, "Diff" ])
