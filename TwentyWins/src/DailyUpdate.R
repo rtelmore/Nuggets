@@ -15,10 +15,11 @@ for(game in 1:kGames){
 }
 
 if(args[1] == TRUE){
-  pdf(paste(.project.path, "fig/nuggets_probs_", as.Date(Sys.Date()), ".pdf", sep = ""), h = 7, w = 7)
-  plot(c(1, kGames), c(0, 1), type = "n", xlab = "game number",
-      ylab = "probability of making playoffs",
-      main = paste("Denver Playoff Probability by Game: ", Sys.time(), sep = ""))
+  png(paste(.project.path, "fig/nuggets_probs_", as.Date(Sys.Date()), ".png", sep = ""),
+      ,hei = 840, wid = 840)
+  plot(c(1, kGames), c(0, 1), type = "n", xlab = "Game Number",
+      ylab = "Power Ranking",
+      main = paste("Denver Power Ranking by Game: ", Sys.time(), sep = ""))
   grid()
   for(l in 1:kGames){
    lines(c(l, l), c(nugs.predictions[l, 1] + nugs.predictions[l, 2]*2, 
@@ -31,15 +32,14 @@ if(args[1] == TRUE){
   dev.off()
 }
 
-pdf(paste(.project.path, 
+png(paste(.project.path, 
           "fig/league_probs_", 
           as.Date(Sys.Date()), 
-          ".pdf", 
-          sep = ""), 
-    h = 7, w = 7)
+          ".png", 
+          sep = ""), hei = 840, wid = 840)
 plot(c(1, 30), c(0, 1), type = "n", xlab = "team",
-    ylab = "probability of making playoffs", xaxt = "n",
-    main = paste("Playoff Probability by Team: ", Sys.time(), sep = ""))
+    ylab = "power ranking", xaxt = "n",
+    main = paste("Power Ranking by Team: ", Sys.time(), sep = ""))
 abline(h = .5, lty = 2)
 abline(v = 1:30, lty = 3, col = "lightgray")
 abline(v = (1:30)[league$team == "DEN"], lty = 3, col = "darkred", lwd = 1.5)
@@ -67,11 +67,11 @@ p <- ggplot(data = season.to.date[season.to.date$conf == "W", ],
             aes(x = date, y = prob, col = team))
 p + geom_line() +
   facet_wrap(~ team, nrow = 5, ncol = 3) +
-  scale_y_continuous("Probability of Making Playoffs") +
+  scale_y_continuous("Power Ranking") +
   scale_x_date("Date") +
   theme(legend.position = "none", 
         axis.text.x = element_text(angle = 45, hjust = 1))
-ggsave(file = paste(.project.path, "fig/league_W_facet_", as.Date(Sys.Date()), ".pdf", sep = ""), h = 7, w = 7)
+ggsave(file = paste(.project.path, "fig/league_W_facet_", as.Date(Sys.Date()), ".png", sep = ""), h = 7, w = 7)
 
 # p + geom_line() +
 #   scale_y_continuous("Probability of Making Playoffs") +
@@ -84,11 +84,11 @@ p <- ggplot(data = season.to.date[season.to.date$conf == "E", ],
             aes(x = date, y = prob, col = team))
 p + geom_line() +
   facet_wrap(~ team, nrow = 5, ncol = 3) +
-  scale_y_continuous("Probability of Making Playoffs") +
+  scale_y_continuous("Power Ranking") +
   scale_x_date("Date") +
   theme(legend.position = "none", 
         axis.text.x = element_text(angle = 45, hjust = 1))
-ggsave(file = paste(.project.path, "fig/league_E_facet_", as.Date(Sys.Date()), ".pdf", sep = ""), h = 7, w = 7)
+ggsave(file = paste(.project.path, "fig/league_E_facet_", as.Date(Sys.Date()), ".png", sep = ""), h = 7, w = 7)
 
 playoff.sim <- PlayoffsTheMonteCarloWay(league, k = 10000)
 playoff.sim <- playoff.sim[order(-playoff.sim$p), ]
@@ -97,12 +97,11 @@ playoff.season.to.date <- rbind(playoff.season.to.date, playoff.sim)
 save("playoff.season.to.date", 
      file = paste(.project.path, "data/playoff.season.to.date.RData", sep = ""))
 
-pdf(paste(.project.path, 
+png(paste(.project.path, 
           "fig/league_probs_sim_", 
           as.Date(Sys.Date()), 
-          ".pdf", 
-          sep = ""), 
-    h = 7, w = 7)
+          ".png", 
+          sep = ""), hei = 840, wid = 840)
 plot(c(1, 30), c(0, 1), type = "n", xlab = "team",
     ylab = "probability of making playoffs", xaxt = "n",
     main = paste("Simulated Playoff Probability by Team: ", Sys.time(), sep = ""))
