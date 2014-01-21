@@ -59,7 +59,6 @@ PlayoffProbabilitiesByCurrentRecord <- function(team, kGames = NULL){
 
 RandomTeamRanking <- function(team){
   return(runif(n = 1, min = team[1] - 5*team[2], max = team[1] + 5*team[2]))
-  # , sd = 2*team[2]))
 }
 
 PlayoffsTheMonteCarloWay <- function(rankings, kSims = 10000){
@@ -72,7 +71,6 @@ PlayoffsTheMonteCarloWay <- function(rankings, kSims = 10000){
   for (sim in 1:kSims){
     new.p <- apply(new.ranks, 1, RandomTeamRanking)
     new.p[new.p > 1] <- 1
-    new.p[]
     rankings$prob <- new.p
     league <- rankings[order(rankings$div, -rankings$prob), ]
     playoffs <- league$team[seq(1, 26, by = 5)]

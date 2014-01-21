@@ -18,7 +18,7 @@
 		<link rel="stylesheet" href="css/theme/beige.css" id="theme">
 
 		<!-- For syntax highlighting -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
+		<link rel="stylesheet" href="lib/css/zenburn2.css">
 
 		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
 		<script>
@@ -41,8 +41,19 @@
 					<h3>Will they make the playoffs?</h3>
 					<br>
 					<p>
-						<small>Created by Ryan Elmore / <a href="http://twitter.com/rtelmore">@rtelmore</a></small>
+						<font size = "5">Ryan Elmore / <a href="http://twitter.com/rtelmore">@rtelmore</a>
+						</font>
 					</p>
+					<p>
+						<small>
+							NREL
+						</small>
+					<p>
+					<br>
+					 <p>
+		            <font size="3"><a href="https://github.com/hakimel/reveal.js/">Reveal.js</a> was created by <a href="http://hakim.se">Hakim El Hattab</a> / <a href="http://twitter.com/hakimel">@hakimel</a></font>
+		             </p>
+		            
 				</section>
 
 				<section>
@@ -90,6 +101,15 @@
 					</ul>
 				</section>	
 
+		        <section>
+		             <h2>A Logistic Regression Model</h2>
+		             <p>
+						$$
+		                \log(\frac{p}{1-p}) = \beta_0 + \beta_1X_1 + \dots + \beta_5X_5
+						$$
+		             </p>
+		         </section>
+				
 				<section>
 					<h2>The First Twenty Games</h2>
 					<p>
@@ -97,34 +117,103 @@
 					</p>
 				</section>
 
-				<section data-transition="none">
+				<section>
 					<h2>The First Twenty Games</h2>
 					<p>
 					<img src="fig/basketball-reference-twenty-highlights.png">
 					</p>
 				</section>
 
-				<section data-markdown>
-					<script type="text/template">
-						## Process Team by Year
-						<br>
-						
-						```
-						GetNBASeasonTeamByYear <- function(team, year){
-						  html <- paste(.base.api, team, "/", year, "_games.html", sep="")
-						  stats <- readHTMLTable(html)[['teams_games']][c(1, 2, 4:6, 8:12)]
-						  stats <- stats[-c(21, 42, 63, 84), ]
-						  stats[, c(1, 6:9)] <- apply(stats[, c(1, 6:9)], 2, as.numeric)
-						  stats$Diff <- stats$Tm - stats$Opp
-						  stats$AvgDiff <- cumsum(stats$Diff)/stats$G
-						  stats$Away <- cumsum(stats[, 3] == '@')
-						  stats$BackToBack <- c(NA, as.vector(diff(mdy(stats$Date))))
-						  return(stats)
-						}
-						```
-					</script>
+				<section>
+					<h2>Process a Team's Season (Year)</h2>
+					<br>
+					<pre><code class="r" data-trim contenteditable>
+GetNBASeasonTeamByYear <- function(team, year){
+  require(XML)
+  require(lubridate)
+  html <- paste(.base.api, team, "/", year, "_games.html", sep="")
+  stats <- readHTMLTable(html)[['teams_games']][c(1, 2, 4:6, 8:12)]
+  stats <- stats[-c(21, 42, 63, 84), ]
+  stats[, c(1, 6:9)] <- apply(stats[, c(1, 6:9)], 2, as.numeric)
+  stats$Diff <- stats$Tm - stats$Opp
+  stats$AvgDiff <- cumsum(stats$Diff)/stats$G
+  stats$Away <- cumsum(stats[, 3] == '@')
+  stats$BackToBack <- c(NA, as.vector(diff(mdy(stats$Date))))
+  return(stats)
+}
+					</code></pre>
 				</section>
 
+				<section>
+					<h2>Simulate the Final Standings</h2>
+					<pre><code class="r" data-trim contenteditable>
+
+RandomTeamRanking <- function(team){
+  return(runif(n = 1, min = team[1] - 5*team[2], max = team[1] + 5*team[2]))
+}
+
+PlayoffsTheMonteCarloWay <- function(rankings, kSims = 10000){
+  sim.playoffs <- matrix(NA, nc = 30, nr = kSims)
+  rankings <- rankings[order(rankings$team), ]
+  rankings$divison <- c("E", "A", "A", "E", "C", "C", "W", "N", "C", "P", "W", "C",
+                        "P", "P", "W", "E", "C", "N", "W", "A", "N", "E", "A", "P",
+                        "N", "P", "W", "A", "N", "E")
+  new.ranks <- rankings[, 2:3]
+  for (sim in 1:kSims){
+    new.p <- apply(new.ranks, 1, RandomTeamRanking)
+    new.p[new.p > 1] <- 1
+    new.p[]
+    rankings$prob <- new.p
+    league <- rankings[order(rankings$div, -rankings$prob), ]
+    playoffs <- league$team[seq(1, 26, by = 5)]
+    leftovers <- league[!(league$team %in% playoffs), ]
+    leftovers <- leftovers[ order(leftovers$conf, -leftovers$prob), ]
+    playoffs <- c(playoffs, leftovers$team[c(1:5, 13:17)])    
+    sim.playoffs[sim, ] <- rankings$team %in% playoffs
+  }
+  colnames(sim.playoffs) <- rankings$team
+  tmp <- apply(sim.playoffs, 2, mean)
+  tmp2 <- apply(sim.playoffs, 2, sd)
+  return(data.frame(p = tmp, v = tmp2, conf = rankings$conf, div = rankings$div))
+}
+					</code></pre>
+				</section>
+				
+				<section>
+					<h2>Model Coefficients Over Time</h2>
+					<p>
+					<img src="fig/coefficients.png">
+					</p>
+				</section>
+
+				<section>
+					<h2>Eastern Conference</h2>
+					<p>
+					<img src="fig/league_E_facet_2014-01-21.png">
+					</p>
+				</section>
+
+				<section>
+					<h2>Western Conference</h2>
+					<p>
+					<img src="fig/league_W_facet_2014-01-21.png">
+					</p>
+				</section>
+
+				<section>
+					<h2>Nuggets Over Time</h2>
+					<p>
+					<img src="fig/nuggets_probs_2014-01-20.png">
+					</p>
+				</section>
+
+				<section>
+					<h2>League Rankings as of Today</h2>
+					<p>
+					<img src="fig/league_probs_2014-01-21.png">
+					</p>
+				</section>
+				
 				<!-- Example of nested vertical slides -->
 				<section>
 					<section>
@@ -447,8 +536,11 @@ function linkify( selector ) {
 					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
 					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
 					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
-					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
-				]
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/math/math.js', async: true },
+					// Remote control your reveal.js presentation using a touch device
+			        { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }      
+			   ]      
 			});
 
 		</script>
