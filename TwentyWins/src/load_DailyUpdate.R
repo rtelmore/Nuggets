@@ -14,6 +14,7 @@ library(XML)
 library(plyr)
 library(lubridate)
 library(ggplot2)
+library(reshape)
 
 ## API
 .base.api <- "http://www.basketball-reference.com/teams/"
