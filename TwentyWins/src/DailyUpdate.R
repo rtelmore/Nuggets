@@ -19,8 +19,7 @@ if(args[1] == TRUE){
       ,hei = 840, wid = 840)
   plot(c(1, kGames), c(0, 1), type = "n", xlab = "Game Number",
       ylab = "Power Ranking",
-      main = paste("Denver Power Ranking by Game: ", Sys.time(), sep = ""), 
-      ylim = c(0, 1))
+      main = paste("Denver Power Ranking by Game: ", Sys.time(), sep = ""))
   grid()
   for(l in 1:kGames){
    lines(c(l, l), c(nugs.predictions[l, 1] + nugs.predictions[l, 2]*2, 
