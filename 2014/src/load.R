@@ -38,7 +38,7 @@ for (year in years) {
     if (team == "OKC") {
       if (year <= 2008) team <- "SEA"
     }
-    if (team == 'NJN' & year == 2013) team <- "BRK"
+    if (team == 'NJN' & year >= 2013) team <- "BRK"
     if (team == "CHA" & year <= 2004) team.stats[[index]] <- NULL
     else {
       print(c(team, year, index))
