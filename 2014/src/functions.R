@@ -14,7 +14,7 @@ GetNBASeasonTeamByYear <- function(team, year){
   stats <- mutate(stats, Diff = Tm - Opp, 
                          AvgDiff = cumsum(Diff)/G,
                          Away = cumsum(Away_Indicator == '@'),
-                         BackToBack = c(NA, as.vector(diff(mdy(Date)))))
+                         DaysBetweenGames = c(NA, as.vector(diff(mdy(Date)))))
   stats$Diff <- stats$Tm - stats$Opp
   stats$AvgDiff <- cumsum(stats$Diff)/stats$G
   stats$Away <- cumsum(stats[, 3] == '@')
