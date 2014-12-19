@@ -25,3 +25,4 @@ for (i in 1:length(games)){
                         data = results_df)
 }
 saveRDS("games_glm", file = paste(.project.path, "data/game_glm.rds", sep = ""))
+
