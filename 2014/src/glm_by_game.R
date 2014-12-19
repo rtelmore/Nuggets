@@ -1,5 +1,7 @@
 playoffs_df <- read.csv(paste(.project.path, "data/playoffs.csv", sep = ""),
                         header = F)
+playoffs_df <- as.tbl(playoffs_df)
+                        
 index <- laply(team_stats, .fun = function(x) !is.null(x))
 N <- sum(index)
 
