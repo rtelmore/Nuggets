@@ -64,3 +64,5 @@ p + geom_line(size = 1) +
   scale_x_continuous("number of games") +
   scale_y_continuous("p-value") +
   scale_color_manual(values = c("#d7191c", "#fdae61", "#ffffbf", "#abd9e9", "#2c7bb6"))
+
+## 4. Model Validation
