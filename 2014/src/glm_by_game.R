@@ -12,15 +12,16 @@ results_df <- data.frame(Record = 1:N,
                          Playoffs = playoffs_df$V3[index],
                          Previous = playoffs_df$V4[index])
 
-games.glm <- list()
+games_glm <- list()
 games <- 1:82
 for (i in 1:length(games)){
   for (j in 1:N) {
-    results.df[j, 1:6] <- ProcessSeasonStatsByGame(team_stats_complete[[j]], 
+    results_df[j, 1:6] <- ProcessSeasonStatsByGame(team_stats_complete[[j]], 
                                                    game = games[i])
+    # print(results_df[j, ])
   }
-  games.glm[[i]] <- glm(Playoffs ~ Record + AvgDiff + Away + Previous + BackToBack,
+  games_glm[[i]] <- glm(Playoffs ~ Record + AvgDiff + Away + Previous + BackToBack,
                         family = binomial,
-                        data = results.df)
+                        data = results_df)
 }
-save("games.glm", file = paste(.project.path, "data/glms.RData", sep = ""))
+saveRDS("games_glm", file = paste(.project.path, "data/game_glm.rds", sep = ""))

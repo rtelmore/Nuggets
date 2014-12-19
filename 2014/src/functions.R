@@ -17,3 +17,16 @@ GetNBASeasonTeamByYear <- function(team, year){
                          DaysBetweenGames = c(NA, as.vector(diff(mdy(Date)))))
   return(stats)
 }
+
+ProcessSeasonStatsByGame <- function(team, game){
+  kGames <- dim(team)[1]
+  kRecord <- team[game, 'W'] - team[game, 'L']
+  fRecord <- team[kGames, 'W'] - team[kGames, 'L']
+  btob <- ifelse(game > 1, sum(team[2:game, 'DaysBetweenGames'] == 1), 0)
+  return(list(Record = kRecord,
+              AvgDiff = team[game, 'AvgDiff'],
+              MedDiff = median(team[1:game, 'Diff']),
+              Away = team[game, 'Away'],
+              FinRecord = fRecord,
+              BackToBack = btob))
+}
