@@ -30,3 +30,33 @@ ProcessSeasonStatsByGame <- function(team, game){
               FinRecord = fRecord,
               BackToBack = btob))
 }
+
+GetNBASeasonTeamCurrentYear <- function(team){
+  require(lubridate)
+  url <- paste(.base.api, team, "/", "2015", "_games.html", sep="")
+  stats <- readHTMLTable(url)[['teams_games']][c(1, 2, 6:8, 10:14)]
+  stats <- stats[-c(21, 42, 63, 84), ]
+  stats <- stats[mdy(stats$Date) < as.POSIXct(Sys.Date()), ]
+  stats[, c(1, 6:9)] <- apply(stats[, c(1, 6:9)], 2, as.numeric)
+  stats$Diff <- stats$Tm - stats$Opp
+  stats$AvgDiff <- cumsum(stats$Diff)/stats$G
+  stats$Away <- cumsum(stats[, 3] == '@')
+  stats$BackToBack <- c(0, as.vector(diff(mdy(stats$Date))))
+  return(stats)
+}
+
+PlayoffProbabilitiesByCurrentRecord <- function(team, kGames = NULL){
+  stats <- team.stats.2014[[team]]
+  if(is.null(kGames)){
+    kGames <- dim(stats)[1]    
+  }
+  stats.process <- ProcessSeasonStatsByGame(stats, kGames)
+  stats.process$Playoffs <- NA
+  if(team == "NOP") team <- "NOH"
+  stats.process$Previous <- playoffs.df[playoffs.df$V1 == '2013' & playoffs.df$V2 == team, 'V3']
+  # print(stats.process)
+  team.pred <- predict(games.glm[[kGames]], newdata = data.frame(stats.process),
+                       type = "response", se = T)[1:2]
+  team.pred$kGames <- kGames
+  return(team.pred)
+}

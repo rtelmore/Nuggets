@@ -50,4 +50,6 @@ for (game in 1:7){
 } 
 apply(results_red, 2, summary)
 apply(results_full, 2, summary)
+saveRDS("results_red", file = paste(.project.path, "data/results_red.rds", sep = ""))
+saveRDS("results_full", file = paste(.project.path, "data/results_full.rds", sep = ""))
 
