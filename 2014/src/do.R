@@ -21,7 +21,7 @@ library(reshape2)
 # OKC was SEA in 2008 and prior
 # NOP was NOH prior to 2014; NOH was NOK in 2006 and 2007 and CHH < 2002
 years <- 2002:2014
-teams <- c("ATL", "BOS", "NJN", "CHA", "CHI", "CLE", "DAL", "DEN", "DET", "GSW",
+teams <- c("ATL", "BOS", "BRK", "CHA", "CHI", "CLE", "DAL", "DEN", "DET", "GSW",
            "HOU", "IND", "LAC", "LAL", "MEM", "MIA", "MIL", "MIN", "NOP", "NYK",
            "OKC", "ORL", "PHI", "PHO", "POR", "SAC", "SAS", "TOR", "UTA", "WAS")
 
@@ -66,3 +66,6 @@ p + geom_line(size = 1) +
   scale_color_manual(values = c("#d7191c", "#fdae61", "#ffffbf", "#abd9e9", "#2c7bb6"))
 
 ## 4. Model Validation
+source("validate.R")
+
+

@@ -1,4 +1,4 @@
-index <- 1
+counter <- 1
 team_stats <- vector("list", 390)
 team_matrix <- matrix(NA, nc = 2, nr = length(years)*length(teams))
 
@@ -14,14 +14,14 @@ for (year in years) {
     if (team == "OKC") {
       if (year <= 2008) team <- "SEA"
     }
-    if (team == 'NJN' & year >= 2013) team <- "BRK"
+    if (team == 'BRK' & year < 2013) team <- "NJN"
     if (team == "CHA" & year <= 2004) team_stats[[index]] <- NULL
     else {
-      print(c(team, year, index))
-      team_stats[[index]] <- GetNBASeasonTeamByYear(team, year)
+      print(c(team, year, counter))
+      team_stats[[counter]] <- GetNBASeasonTeamByYear(team, year)
     } 
-  team_matrix[index, ] <- c(year, team)
-  index <- index + 1   
+  team_matrix[counter, ] <- c(year, team)
+  counter <- counter + 1   
   }
 }
 
