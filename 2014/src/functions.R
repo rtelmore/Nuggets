@@ -49,28 +49,21 @@ PlayoffProbabilitiesByCurrentRecord <- function(team, kGames = NULL, playoffs, s
 }
 
 PlayoffsFromPowerRankings <- function(rankings){
-  sim.playoffs <- matrix(NA, nc = 30, nr = kSims)
   rankings <- rankings[order(rankings$team), ]
-  rankings$divison <- c("E", "A", "A", "E", "C", "C", "W", "N", "C", "P", "W", "C",
+  rankings$division <- c("E", "A", "A", "E", "C", "C", "W", "N", "C", "P", "W", "C",
                         "P", "P", "W", "E", "C", "N", "W", "A", "N", "E", "A", "P",
                         "N", "P", "W", "A", "N", "E")
-  new.ranks <- rankings[, 2:3]
-  for (sim in 1:kSims){
-    new.p <- apply(new.ranks, 1, RandomTeamRanking)
-    new.p[new.p > 1] <- 1
-    rankings$prob <- new.p
-    league <- rankings[order(rankings$div, -rankings$prob), ]
-    playoffs <- league$team[seq(1, 26, by = 5)]
-    leftovers <- league[!(league$team %in% playoffs), ]
-    leftovers <- leftovers[ order(leftovers$conf, -leftovers$prob), ]
-    playoffs <- c(playoffs, leftovers$team[c(1:5, 13:17)])    
-    sim.playoffs[sim, ] <- rankings$team %in% playoffs
-  }
-  colnames(sim.playoffs) <- rankings$team
-  tmp <- apply(sim.playoffs, 2, mean)
-  tmp2 <- apply(sim.playoffs, 2, sd)
-  return(data.frame(p = tmp, v = tmp2, conf = rankings$conf, div = rankings$div))
-  # league$team %in% playoffs  
+  league <- rankings[order(rankings$division, -rankings$prob), ]
+  playoffs <- league$team[seq(1, 26, by = 5)]
+  leftovers <- league[!(league$team %in% playoffs), ]
+  leftovers <- leftovers[order(leftovers$conf, -leftovers$prob), ]
+  playoffs <- c(playoffs, leftovers$team[c(1:5, 13:17)])    
+  rankings$playoffs <- rep(0, 30)
+  rankings$playoffs[rankings$team %in% playoffs] <- 1
+  return(data.frame(team = rankings$team,
+                    conf = rankings$conf, 
+                    division = rankings$division,
+                    playoffs = rankings$playoffs))
 }
 
 # RandomTeamRanking <- function(team){
