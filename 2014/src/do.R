@@ -68,4 +68,12 @@ p + geom_line(size = 1) +
 ## 4. Model Validation
 source("validate.R")
 
+## 5. Power Rankings
+source("daily_update.R")
+
+## 6. Playoffs
+
+
+## 7. Nuggets to Date
+source("nuggets_to_date.R")
 

@@ -14,13 +14,13 @@ for (game in 1:7){
                                                    game = games[game])
   }
 
-  glm_full <- glm(Playoffs ~ Record + AvgDiff + Away + Previous + BackToBack,
-                 family = binomial,
-                 data = results_df)
-
-  glm_red <- glm(Playoffs ~ Record + AvgDiff + Previous,
-                 family = binomial,
-                 data = results_df)
+  # glm_full <- glm(Playoffs ~ Record + AvgDiff + Away + Previous + BackToBack,
+  #                family = binomial,
+  #                data = results_df)
+  # 
+  # glm_red <- glm(Playoffs ~ Record + AvgDiff + Previous,
+  #                family = binomial,
+  #                data = results_df)
 
   for (i in 1:kTrials){
     new_index <- rep(F, N)

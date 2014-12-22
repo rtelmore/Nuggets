@@ -15,7 +15,7 @@ for (year in years) {
       if (year <= 2008) team <- "SEA"
     }
     if (team == 'BRK' & year < 2013) team <- "NJN"
-    if (team == "CHA" & year <= 2004) team_stats[[index]] <- NULL
+    if (team == "CHA" & year <= 2004) team_stats[[counter]] <- NULL
     else {
       print(c(team, year, counter))
       team_stats[[counter]] <- GetNBASeasonTeamByYear(team, year)
@@ -29,5 +29,5 @@ index <- laply(team_stats, .fun = function(x) !is.null(x))
 team_stats_complete <- team_stats[index]
 
 saveRDS(team_stats, file = "../data/team_stats.rds")
-saveRDS(team_stats, file = "../data/team_stats_complete.rds")
+saveRDS(team_stats_complete, file = "../data/team_stats_complete.rds")
 saveRDS(team_matrix, file = "../data/team_matrix.rds")
