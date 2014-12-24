@@ -26,5 +26,5 @@ for (i in 1:length(games)){
                         family = binomial,
                         data = results_df)
 }
-saveRDS("games_glm", file = paste(.project.path, "data/game_glm.rds", sep = ""))
+saveRDS(games_glm, file = paste(.project.path, "data/game_glm.rds", sep = ""))
 

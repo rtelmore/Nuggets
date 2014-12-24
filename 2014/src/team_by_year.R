@@ -28,6 +28,9 @@ for (year in years) {
 index <- laply(team_stats, .fun = function(x) !is.null(x))
 team_stats_complete <- team_stats[index]
 
-saveRDS(team_stats, file = "../data/team_stats.rds")
-saveRDS(team_stats_complete, file = "../data/team_stats_complete.rds")
-saveRDS(team_matrix, file = "../data/team_matrix.rds")
+# saveRDS(team_stats, file = "../data/team_stats.rds")
+# saveRDS(team_stats_complete, file = "../data/team_stats_complete.rds")
+# saveRDS(team_matrix, file = "../data/team_matrix.rds")
+team_stats <- readRDS(team_stats, file = "../data/team_stats.rds")
+team_stats_complete <- readRDS(file = "../data/team_stats_complete.rds")
+team_matrix <- readRDS(file = "../data/team_matrix.rds")

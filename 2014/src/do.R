@@ -67,6 +67,8 @@ p + geom_line(size = 1) +
 
 ## 4. Model Validation
 source("validate.R")
+apply(results_red, 2, summary)
+apply(results_full, 2, summary)
 
 ## 5. Power Rankings
 source("daily_update.R")
