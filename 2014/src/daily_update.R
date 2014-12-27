@@ -19,3 +19,33 @@ for (team in teams){
 league <- league[order(-league[, 2]), ]
 
 team_playoffs <- PlayoffsFromPowerRankings(league)
+
+# playoffs_df <- read.csv(paste(.project.path, "data/playoffs.csv", sep = ""),
+#                         header = F)
+playoffs_df <- as.tbl(playoffs_df)
+
+kTotalGames <- sum(ldply(team_stats_2015, function(x) dim(x)[[1]])$V1)
+
+results <- data.frame(team = 1:kTotalGames,
+                      conf = 1:kTotalGames,
+                      game = 1:kTotalGames,
+                      prob = 1:kTotalGames, 
+                      se   = 1:kTotalGames)
+counter = 1
+for(team in teams){
+  conf <- league$conf[league$team == team]
+  kGames <- dim(team_stats_2015[[team]])[1]
+  for(game in 1:kGames){
+    tmp <- PlayoffProbabilitiesByCurrentRecord(team, 
+                                               kGames = game, 
+                                               playoffs_df,
+                                               team_stats_2015[[team]])
+    results[counter, ] <- c(team, conf, game, tmp$fit, tmp$se)
+    counter = counter + 1
+  }  
+}
+
+results$game <- as.numeric(results$game)
+results$prob <- as.numeric(results$prob)
+results$se <- as.numeric(results$se)
+results <- as.tbl(results)
