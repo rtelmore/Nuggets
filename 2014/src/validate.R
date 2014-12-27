@@ -50,6 +50,14 @@ for (game in 1:7){
 } 
 apply(results_red, 2, summary)
 apply(results_full, 2, summary)
-saveRDS("results_red", file = paste(.project.path, "data/results_red.rds", sep = ""))
-saveRDS("results_full", file = paste(.project.path, "data/results_full.rds", sep = ""))
+
+colnames(results_red) <- c("5", "10", "20", "30", "40", "50", "60")
+colnames(results_full) <- c("5", "10", "20", "30", "40", "50", "60")
+results_red <- as.data.frame(results_red)
+results_red <- as.tbl(results_red)
+results_full <- as.data.frame(results_full)
+results_full <- as.tbl(results_full)
+
+saveRDS(results_red, file = paste(.project.path, "data/results_red.rds", sep = ""))
+saveRDS(results_full, file = paste(.project.path, "data/results_full.rds", sep = ""))
 

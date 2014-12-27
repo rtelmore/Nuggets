@@ -49,3 +49,6 @@ results$game <- as.numeric(results$game)
 results$prob <- as.numeric(results$prob)
 results$se <- as.numeric(results$se)
 results <- as.tbl(results)
+pwr_rank <- group_by(results, team) %>% 
+            filter(game == max(game)) %>%
+            arrange(-prob)
