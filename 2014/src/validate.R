@@ -6,6 +6,16 @@ games <- c(5, 10, 20, 30, 40, 50, 60)
 kGames <- length(games)
 results_full <- matrix(0, nc = kGames, nr = kTrials)
 results_red <- matrix(0, nc = kGames, nr = kTrials)
+index <- laply(team_stats, .fun = function(x) !is.null(x))
+N <- sum(index)
+results_df <- data.frame(Record = 1:N,
+                         AvgDiff = 1:N,
+                         MedDiff = 1:N,
+                         Away = 1:N,
+                         FinRecord = 1:N,
+                         BackToBack = 1:N,
+                         Playoffs = playoffs_df$V3[index],
+                         Previous = playoffs_df$V4[index])
 
 for (game in 1:7){
   print(games[game])
