@@ -35,6 +35,14 @@ p + geom_ribbon(aes(ymin = lwr, ymax = upr, fill='prediction'), alpha=0.3) +
     geom_point() +
     scale_fill_manual('Interval', values = c('#ffffbf', '#91bfdb')) +
     scale_x_continuous('win %age current year') +
-    scale_y_continuous('win %age the following year')
+    scale_y_continuous('win %age the following year') + 
+    geom_point(aes(x = win_pct, y = win_pct_2), 
+               data = filter(new_df, team == "NYK"),
+               size = 4, col = "navy") + 
+    geom_point(aes(x = win_pct, y = win_pct_2), 
+              data = filter(new_df, team == "NYK"),
+              size = 2, col = "orange")
+               
+
     
 ggsave("../fig/knicks.pdf")
