@@ -5,7 +5,7 @@
 .project_path <- "/Users/relmore/Side_Projects/Nuggets/knicks/"
 
 ## Dependencies:
-source(paste(.project_path, "src/load.R", sep=""))
+source("src/load.R")
 
 
 names(playoffs_df) <- c("year", "team", "playoffs", "prior")
