@@ -10,3 +10,12 @@ playoffs <- tbl_df(playoffs) %>%
 playoffs %>% 
   summarize(result = sum(correct)/386)
 
+results_full <- readRDS(file = "2014/data/results_full.rds")
+results_red <- readRDS(file = "2014/data/results_red.rds")
+results_full$`5` %>%
+  density() %>%
+  plot()
+
+sum(results_red$`10` > .7305699)/1000
+
+plot(density(as.vector(results_full[, 1])))
