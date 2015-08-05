@@ -6,6 +6,7 @@
 GetNBASeasonTeamByYear <- function(team, year){
   require(lubridate)
   require(dplyr)
+  require(XML)
   url <- paste(.base.api, team, "/", year, "_games.html", sep="")
   stats <- readHTMLTable(url)[['teams_games']][c(1, 2, 6:8, 10:14)]
   stats <- stats[-c(21, 42, 63, 84), ]
