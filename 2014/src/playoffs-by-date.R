@@ -2,7 +2,7 @@
 ## 5 Aug 2015
 ## playoffs-by-date.R
 
-NBAPlayoffTeamsByDate <- function(date_string){
+NBAStandingsByDate <- function(date_string){
   ## date is a string of the form "YYYY-MM-DD"
   require(rvest)
   require(lubridate)
@@ -16,9 +16,8 @@ NBAPlayoffTeamsByDate <- function(date_string){
                "&day=", d,
                "&year", y,
                "&lg_id=NBA", sep = "")
-#   records <- readHTMLTable(url)[['teams_games']][c(1, 2, 6:8, 10:14)]
   r <- html(url)
   east <- html_table(r, fill = T)[[2]]
-  east_playoffs <- 
-    east <- east[-c(1, 7, 13), ]
-  }
+  west <- html_table(r, fill = T)[[3]]
+  return(list(East = east, West = west))
+}
