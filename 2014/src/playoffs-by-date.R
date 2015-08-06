@@ -27,8 +27,14 @@ NBAPlayoffsFromStandings <- function(standings){
   standings <- tbl_df(standings[-c(1, 7, 13), ]) %>%
     mutate(Div = rep(1:3, each = 5))
   names(standings)[c(1, 4)] <- c("Team", "Win_Pct")  
-  playoffs <- standings[seq(1, 26, by = 5)]
-  leftovers <- league[!(league$team %in% playoffs), ]
-  leftovers <- leftovers[ order(leftovers$conf, -leftovers$prob), ]
-  playoffs <- c(playoffs, leftovers$team[c(1:5, 13:17)])    
-}
+  playoffs <- standings %>% 
+    group_by(Div) %>% 
+    filter(Win_Pct == max(Win_Pct)) %>% 
+    ungroup() %>%
+    select(Team)
+  others <- standings %>% 
+    filter(!(Team %in% playoffs$Team)) %>%
+    arrange(desc(Win_Pct)) %>% top_n(n = 5, Win_Pct) %>%
+    select(Team)
+  return(rbind(playoffs, others))
+  }
