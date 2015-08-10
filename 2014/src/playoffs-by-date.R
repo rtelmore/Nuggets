@@ -36,7 +36,8 @@ NBAPlayoffsFromStandings <- function(standings){
     filter(!(Team %in% playoffs$Team)) %>%
     arrange(desc(Win_Pct)) %>% top_n(n = 5, Win_Pct) %>%
     select(Team)
-  return(rbind(playoffs, others))
+  return(rbind(playoffs, others) %>%
+           mutate(Playoffs = str_detect(Team, "\\*")))
 }
 
 NumberInPlayoffs <- function(playoffs_df){
