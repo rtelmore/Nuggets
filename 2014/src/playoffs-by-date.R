@@ -37,4 +37,12 @@ NBAPlayoffsFromStandings <- function(standings){
     arrange(desc(Win_Pct)) %>% top_n(n = 5, Win_Pct) %>%
     select(Team)
   return(rbind(playoffs, others))
-  }
+}
+
+NumberInPlayoffs <- function(playoffs_df){
+  require(stringr)
+  total <- playoffs_df %>%
+    mutate(tmp = str_detect(Team, "\\*")) %>%
+    summarize(total = sum(tmp))
+  return(total$total[1])
+}
