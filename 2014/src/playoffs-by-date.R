@@ -47,3 +47,14 @@ NumberInPlayoffs <- function(playoffs_df){
     summarize(total = sum(tmp))
   return(total$total[1])
 }
+
+## Nuggets at 10, 20, 30, 40, 50 games for 5 season (back to 2005)
+## 2014: Nov 18, Dec 7, Dec 30, Jan 19, Feb 10, Mar 5, Mar 23
+## 2013: Nov 17, Dec 7, Dec 26, Jan 15, Feb 7, Mar 1, Mar 21
+## 2011: Nov 15, Dec 7, Dec 28, Jan 16, Feb 4, Feb 25, Mar 19
+## 2010: Nov 13, Dec 5, Dec 25, Jan 17, Feb 5, Mar 1, Mar 20
+## 2009: Nov 16, Dec 4, Dec 26, Jan 15, Feb 6, Mar 1, Mar 20
+## 2008: Nov 17, Dec 6, Dec 30, Jan 21, Feb 10, Mar 5, Mar 23
+## 2007: Nov 22, Dec 13, Jan 5, Jan 26, Feb 12, Mar 9, Mar 28
+## 2006: Nov 18, Dec 9, Dec 29, Jan 18, Feb 6, Mar 4, Mar 24
+## 2005: Nov 21, Dec 12, Jan 2, Jan 23, Feb 11, Mar 7, Mar 30
