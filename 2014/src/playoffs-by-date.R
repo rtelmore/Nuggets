@@ -33,6 +33,7 @@ NBAStandingsByDate <- function(date_string){
 
 NBAPlayoffsFromStandings <- function(standings){
   require(dplyr)
+  require(stringr)
   standings <- tbl_df(standings[-c(1, 7, 13), ]) %>%
     mutate(Div = rep(1:3, each = 5))
   names(standings)[c(1, 4)] <- c("Team", "Win_Pct")  
@@ -81,40 +82,49 @@ forty <- c("2005-01-23", "2006-01-18", "2007-01-21", "2008-01-15",
 ## 2006: Nov 18, Dec 9, Dec 29, Jan 18, Feb 6, Mar 4, Mar 24
 ## 2005: Nov 21, Dec 12, Jan 2, Jan 23, Feb 11, Mar 7, Mar 30
 
-forty <- c("2005-01-23", "2006-01-18", "2007-01-21", "2008-01-15",
-           "2009-01-15", "2010-01-17", "2011-01-16", "2013-01-15",
-           "2014-01-19", "2015-01-17")
-forty <- c("2005-01-23", "2006-01-18", "2007-01-21", "2008-01-15",
-           "2009-01-15", "2010-01-17", "2011-01-16", "2013-01-15",
-           "2014-01-19", "2015-01-17")
-
+fifty <- c("2005-02-11", "2006-02-06", "2007-02-12", "2008-02-10",
+           "2009-02-06", "2010-02-05", "2011-02-04", "2013-02-07",
+           "2014-02-10", "2015-02-04")
+sixty <- c("2005-03-07", "2006-03-04", "2007-03-09", "2008-03-05",
+           "2009-03-01", "2010-03-01", "2011-02-25", "2013-03-01",
+           "2014-03-05", "2015-03-03")
 
 result <- matrix(NA, nc = 2, nr = 10)
 for(i in 1:10){
-  standings <- NBAStandingsByDate(ten[i])
+  standings <- NBAStandingsByDate(sixty[i])
   east <- NBAPlayoffsFromStandings(standings$East)
   west <- NBAPlayoffsFromStandings(standings$West)
   result[i, ] <- c(dim(east)[[1]] + dim(west)[[1]], 
                    sum(east$Playoffs) + sum(west$Playoffs))
 }
 
-sum(result[, 2])/sum(result[, 1])
+# results <- numeric()
+results[6] <- sum(result[, 2])/sum(result[, 1])
+
 tmp <- results_full %>% 
   gather(games, total) %>% 
-  mutate(games = as.numeric(levels(games))[games]) %>%
   filter(games != 5)
-p <- ggplot(tmp,
-            aes(as.factor(games), total, color = as.factor(games)))
-p + geom_boxplot() +
-  scale_y_continuous("percentage of correct predictions", limits = c(.6, 1)) +
-  scale_x_discrete("games") + 
-  guides(col = FALSE) +
-  scale_color_manual(values = 
-                       wes_palette(6, 
-                                   name = "Royal1", 
-                                   type = "continuous"))
-  
 
-geom_point(aes(y = c(.65, .7, .75, .8, .85, .9, .95))) + 
+p <- ggplot(tmp,
+            aes(games, total, fill = games))
+p + geom_boxplot(fatten = 1, lwd = 1) +
+  scale_y_continuous("percentage of correct predictions", 
+                     limits = c(.5, 1)) +
+  scale_x_discrete("games") + 
+  geom_point(data = data.frame(games = as.factor(seq(10, 60, by = 10)), 
+                               total = results), 
+             aes(col = "red")) +
+  guides(fill = FALSE, col = FALSE) +
+  theme_bw() +
+  scale_fill_manual(values = c("#a6cee3", 
+                               "#1f78b4",
+                               "#b2df8a",
+                               "#33a02c",
+                               "#fb9a99",
+                               "#e31a1c"))
+#   scale_fill_manual(values = 
+#                        wes_palette(6, 
+#                                    name = "FantasticFox", 
+#                                    type = "continuous"))
   
 
