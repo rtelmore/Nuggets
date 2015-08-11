@@ -101,30 +101,52 @@ for(i in 1:10){
 # results <- numeric()
 results[6] <- sum(result[, 2])/sum(result[, 1])
 
-tmp <- results_full %>% 
-  gather(games, total) %>% 
-  filter(games != 5)
+<- 
 
-p <- ggplot(tmp,
-            aes(games, total, fill = games))
+p <- results_full %>% 
+  gather(games, total) %>% 
+  filter(games != 5) %>%
+  ggplot(tmp, aes(games, total, fill = games))
+
 p + geom_boxplot(fatten = 1, lwd = 1) +
   scale_y_continuous("percentage of correct predictions", 
                      limits = c(.5, 1)) +
   scale_x_discrete("games") + 
-  geom_point(data = data.frame(games = as.factor(seq(10, 60, by = 10)), 
-                               total = results), 
-             aes(col = "red")) +
-  guides(fill = FALSE, col = FALSE) +
-  theme_bw() +
   scale_fill_manual(values = c("#a6cee3", 
                                "#1f78b4",
                                "#b2df8a",
                                "#33a02c",
                                "#fb9a99",
-                               "#e31a1c"))
-#   scale_fill_manual(values = 
-#                        wes_palette(6, 
-#                                    name = "FantasticFox", 
-#                                    type = "continuous"))
-  
+                               "#e31a1c")) +
+  geom_point(data = data.frame(games = as.factor(seq(10, 60, by = 10)), 
+                               total = results), 
+             colour = "grey60", size = 4) +
+  geom_point(data = data.frame(games = as.factor(seq(10, 60, by = 10)), 
+                               total = results), 
+             colour = "navy", size = 2) +
+  guides(fill = FALSE, col = FALSE) +
+  theme_bw()
 
+p <- results_red %>% 
+  gather(games, total) %>% 
+  filter(games != 5) %>%
+  ggplot(tmp, aes(games, total, fill = games))
+
+p + geom_boxplot(fatten = 1, lwd = 1) +
+  scale_y_continuous("percentage of correct predictions", 
+                     limits = c(.5, 1)) +
+  scale_x_discrete("games") + 
+  scale_fill_manual(values = c("#a6cee3", 
+                               "#1f78b4",
+                               "#b2df8a",
+                               "#33a02c",
+                               "#fb9a99",
+                               "#e31a1c")) +
+  geom_point(data = data.frame(games = as.factor(seq(10, 60, by = 10)), 
+                               total = results), 
+             colour = "grey60", size = 4) +
+  geom_point(data = data.frame(games = as.factor(seq(10, 60, by = 10)), 
+                               total = results), 
+             colour = "navy", size = 2) +
+  guides(fill = FALSE, col = FALSE) +
+  theme_bw()
