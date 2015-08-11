@@ -2,6 +2,15 @@
 ## 5 Aug 2015
 ## playoffs-by-date.R
 
+library(ggplot2)
+library(wesanderson)
+library(dplyr)
+library(lubridate)
+library(tidyr)
+
+results_full <- readRDS(file = "2014/data/results_full.rds")
+results_red <- readRDS(file = "2014/data/results_red.rds")
+
 NBAStandingsByDate <- function(date_string){
   ## date is a string of the form "YYYY-MM-DD"
   require(rvest)
@@ -90,4 +99,22 @@ for(i in 1:10){
 }
 
 sum(result[, 2])/sum(result[, 1])
+tmp <- results_full %>% 
+  gather(games, total) %>% 
+  mutate(games = as.numeric(levels(games))[games]) %>%
+  filter(games != 5)
+p <- ggplot(tmp,
+            aes(as.factor(games), total, color = as.factor(games)))
+p + geom_boxplot() +
+  scale_y_continuous("percentage of correct predictions", limits = c(.6, 1)) +
+  scale_x_discrete("games") + 
+  guides(col = FALSE) +
+  scale_color_manual(values = 
+                       wes_palette(6, 
+                                   name = "Royal1", 
+                                   type = "continuous"))
+  
+
+geom_point(aes(y = c(.65, .7, .75, .8, .85, .9, .95))) + 
+  
 
