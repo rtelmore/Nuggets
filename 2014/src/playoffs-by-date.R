@@ -90,6 +90,63 @@ sixty <- c("2005-03-07", "2006-03-04", "2007-03-09", "2008-03-05",
            "2014-03-05", "2015-03-03")
 
 result <- matrix(NA, nc = 2, nr = 10)
+results <- 1:6
+
+for(i in 1:10){
+  standings <- NBAStandingsByDate(ten[i])
+  east <- NBAPlayoffsFromStandings(standings$East)
+  west <- NBAPlayoffsFromStandings(standings$West)
+  result[i, ] <- c(dim(east)[[1]] + dim(west)[[1]], 
+                   sum(east$Playoffs) + sum(west$Playoffs))
+}
+
+# results <- numeric()
+results[1] <- sum(result[, 2])/sum(result[, 1])
+
+for(i in 1:10){
+  standings <- NBAStandingsByDate(twenty[i])
+  east <- NBAPlayoffsFromStandings(standings$East)
+  west <- NBAPlayoffsFromStandings(standings$West)
+  result[i, ] <- c(dim(east)[[1]] + dim(west)[[1]], 
+                   sum(east$Playoffs) + sum(west$Playoffs))
+}
+
+# results <- numeric()
+results[2] <- sum(result[, 2])/sum(result[, 1])
+
+for(i in 1:10){
+  standings <- NBAStandingsByDate(thirty[i])
+  east <- NBAPlayoffsFromStandings(standings$East)
+  west <- NBAPlayoffsFromStandings(standings$West)
+  result[i, ] <- c(dim(east)[[1]] + dim(west)[[1]], 
+                   sum(east$Playoffs) + sum(west$Playoffs))
+}
+
+# results <- numeric()
+results[3] <- sum(result[, 2])/sum(result[, 1])
+
+for(i in 1:10){
+  standings <- NBAStandingsByDate(forty[i])
+  east <- NBAPlayoffsFromStandings(standings$East)
+  west <- NBAPlayoffsFromStandings(standings$West)
+  result[i, ] <- c(dim(east)[[1]] + dim(west)[[1]], 
+                   sum(east$Playoffs) + sum(west$Playoffs))
+}
+
+# results <- numeric()
+results[4] <- sum(result[, 2])/sum(result[, 1])
+
+for(i in 1:10){
+  standings <- NBAStandingsByDate(fifty[i])
+  east <- NBAPlayoffsFromStandings(standings$East)
+  west <- NBAPlayoffsFromStandings(standings$West)
+  result[i, ] <- c(dim(east)[[1]] + dim(west)[[1]], 
+                   sum(east$Playoffs) + sum(west$Playoffs))
+}
+
+# results <- numeric()
+results[5] <- sum(result[, 2])/sum(result[, 1])
+
 for(i in 1:10){
   standings <- NBAStandingsByDate(sixty[i])
   east <- NBAPlayoffsFromStandings(standings$East)
@@ -101,12 +158,10 @@ for(i in 1:10){
 # results <- numeric()
 results[6] <- sum(result[, 2])/sum(result[, 1])
 
-<- 
-
 p <- results_full %>% 
   gather(games, total) %>% 
   filter(games != 5) %>%
-  ggplot(tmp, aes(games, total, fill = games))
+  ggplot(aes(games, total, fill = games))
 
 p + geom_boxplot(fatten = 1, lwd = 1) +
   scale_y_continuous("percentage of correct predictions", 
@@ -126,11 +181,12 @@ p + geom_boxplot(fatten = 1, lwd = 1) +
              colour = "navy", size = 2) +
   guides(fill = FALSE, col = FALSE) +
   theme_bw()
+ggsave("~/conferences/nessis-15/standings.png")
 
 p <- results_red %>% 
   gather(games, total) %>% 
   filter(games != 5) %>%
-  ggplot(tmp, aes(games, total, fill = games))
+  ggplot(aes(games, total, fill = games))
 
 p + geom_boxplot(fatten = 1, lwd = 1) +
   scale_y_continuous("percentage of correct predictions", 
