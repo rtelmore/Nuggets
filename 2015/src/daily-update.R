@@ -73,3 +73,5 @@ pwr_rank <- group_by(results, team) %>%
             filter(game == max(game)) %>%
             ungroup() %>%
             arrange(desc(prob))
+
+mc_rankings <- PlayoffsTheMonteCarloWay(pwr_rank, kSims = 1000)
