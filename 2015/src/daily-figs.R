@@ -25,7 +25,7 @@ pdf(file = paste("2015/fig/NBA-PR-", Sys.Date(), ".pdf", sep = ""),
 
 plot(c(1, 30), c(0, 1), type = "n", xlab = "team",
      ylab = "power ranking", xaxt = "n",
-     main = paste("NBA Power Rankings: ", Sys.time(), sep = ""))
+     main = paste("Ryan's NBA Power Rankings: ", Sys.time(), sep = ""))
 abline(h = seq(0, 1, by = .2), lty = 3, col = "lightgray")
 abline(v = 1:30, lty = 3, col = "lightgray")
 abline(h = .5, lty = 2)
@@ -43,6 +43,7 @@ points((1:30)[pwr_rank$conf == 2], pwr_rank[pwr_rank$conf == 2, 4][[1]],
 axis(1, at = 1:30, labels = pwr_rank$team, cex.axis = .65, las = 2)
 legend("topright", legend = c("West", "East"), pch = c(16, 16), 
        col = c("darkorange", "forestgreen"), bg = "white")
+dev.off()
 
 
 
