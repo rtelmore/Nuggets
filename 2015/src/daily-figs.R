@@ -3,6 +3,7 @@
 
 source("2015/src/daily-update.R")
 source("2015/src/nuggets-to-date.R")
+library(ggplot2)
 
 ## Nuggets trend
 plot(c(1, kGames), c(0, 1), type = "n", xlab = "game number",
