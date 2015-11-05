@@ -6,6 +6,9 @@ source("2015/src/nuggets-to-date.R")
 library(ggplot2)
 
 ## Nuggets trend
+pdf(file = paste("2015/fig/Nugs-PR-", Sys.Date(), ".pdf", sep = ""),
+    height = 8.5,
+    width = 11)
 plot(c(1, kGames), c(0, 1), type = "n", xlab = "game number",
      ylab = "playoff indicator",
      main = "Denver Playoff Indicator by Game")
@@ -18,6 +21,7 @@ for(l in 1:kGames){
 points(1:kGames, Nuggets[, 4][[1]], pch = 16, cex = 2, col = "grey")
 points(1:kGames, Nuggets[, 4][[1]], pch = 16, cex = 1, col = "forestgreen")
 abline(h = .5, lty = 3, lwd = 2)
+dev.off()
 
 ## Overall Power Rankings
 pdf(file = paste("2015/fig/NBA-PR-", Sys.Date(), ".pdf", sep = ""),
@@ -52,23 +56,32 @@ nGames <- max(results$game)
 p <- ggplot(data = filter(results, conf == 1),
             aes(x = game, y = prob, col = team, group = team, 
                 ymin = prob - 2*se, ymax = prob + 2*se))
-p + geom_line() +
-  facet_wrap(~ team, nrow = 5, ncol = 3) +
-  scale_y_continuous("playoff indicator") +
-  scale_x_discrete("Games") +
-  theme(legend.position = "none") +
-  geom_errorbar()
-
-p <- ggplot(data = filter(results, conf == 2),
-            aes(x = game, y = prob, col = team, group = team, 
+p <- ggplot(data = filter(results, conf == 1),
+            aes(x = game, y = prob, group = team, 
                 ymin = prob - 2*se, ymax = prob + 2*se))
 p + geom_line() +
+  geom_errorbar(width = .25) +
   facet_wrap(~ team, nrow = 5, ncol = 3) +
-  scale_y_continuous("playoff indicator") +
-  scale_x_discrete("Games") +
+  scale_y_continuous("power ranking") +
+  scale_x_continuous(breaks = seq(0, nGames, 2), "games") +
   theme(legend.position = "none") +
-  geom_errorbar(width=1)
+  theme_bw()
+ggsave(file = paste("2015/fig/Eest-PR-", Sys.Date(), ".pdf", sep = ""),
+       height = 11,
+       width = 8.5)
 
+p <- ggplot(data = filter(results, conf == 2),
+            aes(x = game, y = prob, group = team, 
+                ymin = prob - 2*se, ymax = prob + 2*se))
+p + geom_line() +
+  geom_errorbar(width = .25) +
+  facet_wrap(~ team, nrow = 5, ncol = 3) +
+  scale_y_continuous("power ranking") +
+  scale_x_continuous(breaks = seq(0, nGames, 2), "games") +
+  theme(legend.position = "none") +
+  theme_bw()
+ggsave(file = paste("2015/fig/West-PR-", Sys.Date(), ".pdf", sep = ""),
+       height = 11,
+       width = 8.5)
 
-# scale_x_discrete(breaks = seq(0, nGames, by = 5), "Games") +
   
