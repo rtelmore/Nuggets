@@ -60,7 +60,8 @@ for(team in teams){
                                                kGames = game, 
                                                playoffs_df,
                                                team_stats_2016[[team]])
-    results[counter, ] <- c(team, conf, game, tmp$fit, tmp$se)
+    results[counter, 1:3] <- c(team, conf, game)
+    results[counter, 4:5] <- c(tmp$fit, tmp$se)
     counter = counter + 1
   }  
 }
@@ -72,6 +73,6 @@ results <- as.tbl(results)
 pwr_rank <- group_by(results, team) %>% 
             filter(game == max(game)) %>%
             ungroup() %>%
-            arrange(desc(prob))
+            arrange(desc(fit))
 
 mc_rankings <- PlayoffsTheMonteCarloWay(pwr_rank, kSims = 1000)
