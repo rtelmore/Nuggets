@@ -49,7 +49,7 @@ kTotalGames <- sum(ldply(team_stats_2016, function(x) dim(x)[[1]])$V1)
 results <- data.frame(team = 1:kTotalGames,
                       conf = rep(NA, kTotalGames),
                       game = 1:kTotalGames,
-                      prob = 1:kTotalGames, 
+                      fit = 1:kTotalGames, 
                       se   = 1:kTotalGames)
 counter = 1
 for(team in teams){
