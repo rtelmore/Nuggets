@@ -15,13 +15,13 @@ plot(c(1, kGames), c(0, 1), type = "n", xlab = "game number",
      main = "Denver Playoff Indicator by Game")
 grid()
 for(l in 1:kGames){
-  lines(c(l, l), c(inv.logit(Nuggets[l, 4] + Nuggets[l, 5]*2),
-                   inv.logit(Nuggets[l, 4] - Nuggets[l, 5]*2)),
+  lines(c(l, l), c(inv.logit((Nuggets[l, 4] + Nuggets[l, 5]*2)$fit),
+                   inv.logit((Nuggets[l, 4] - Nuggets[l, 5]*2)$fit)),
         lty = 1, lwd = 2, col = "navy")
 }
-points(1:kGames, inv.logit(Nuggets[, 4]), pch = 16, cex = 2, 
+points(1:kGames, inv.logit((Nuggets[, 4])$fit), pch = 16, cex = 2, 
        col = "grey")
-points(1:kGames, inv.logit(Nuggets[, 4]), pch = 16, cex = 1, 
+points(1:kGames, inv.logit((Nuggets[, 4])$fit), pch = 16, cex = 1, 
        col = "forestgreen")
 abline(h = .5, lty = 3, lwd = 2)
 dev.off()
