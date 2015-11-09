@@ -45,7 +45,7 @@ PlayoffProbabilitiesByCurrentRecord <- function(team, kGames = NULL, playoffs, s
   stats_process$Previous <- as.numeric(filter(playoffs, V1 == '2014', V2 == team) %>%
                             select(V3))
   team_pred <- predict(games_glm[[kGames]], newdata = data.frame(stats_process),
-                       type = "response", se = T)[1:2]
+                       type = "link", se = T)[1:2]
   team_pred$kGames <- kGames
   return(team_pred)
 }

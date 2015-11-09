@@ -30,7 +30,7 @@ pdf(file = paste("2015/fig/NBA-PR-", Sys.Date(), ".pdf", sep = ""),
 
 plot(c(1, 30), c(0, 1), type = "n", xlab = "team",
      ylab = "power ranking", xaxt = "n",
-     main = paste("Ryan's NBA Power Rankings: ", Sys.time(), sep = ""))
+     main = paste("Ryan's NBA Power Rankings: ", Sys.Date(), sep = ""))
 abline(h = seq(0, 1, by = .2), lty = 3, col = "lightgray")
 abline(v = 1:30, lty = 3, col = "lightgray")
 abline(h = .5, lty = 2)
