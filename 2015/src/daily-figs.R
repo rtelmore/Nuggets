@@ -71,7 +71,7 @@ p + geom_line() +
   scale_x_continuous(breaks = seq(0, nGames, 2), "games") +
   theme(legend.position = "none") +
   theme_bw()
-ggsave(file = paste("2015/fig/Eest-PR-", Sys.Date(), ".pdf", sep = ""),
+ggsave(file = paste("2015/fig/East-PR-", Sys.Date(), ".pdf", sep = ""),
        height = 11,
        width = 8.5)
 
