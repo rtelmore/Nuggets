@@ -11,8 +11,8 @@ pdf(file = paste("2015/fig/Nugs-PR-", Sys.Date(), ".pdf", sep = ""),
     height = 8.5,
     width = 11)
 plot(c(1, kGames), c(0, 1), type = "n", xlab = "game number",
-     ylab = "playoff indicator",
-     main = "Denver Playoff Indicator by Game")
+     ylab = "power rank",
+     main = "Denver Power Ranking by Game")
 grid()
 for(l in 1:kGames){
   lines(c(l, l), c(inv.logit((Nuggets[l, 4] + Nuggets[l, 5]*2)$fit),
