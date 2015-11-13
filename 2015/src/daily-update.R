@@ -21,6 +21,7 @@ teams <- c("ATL", "BOS", "BRK", "CHA", "CHI", "CLE", "DAL", "DEN", "DET", "GSW",
 team_stats_2016 <- list()
 teams[4] <- "CHO"
 for(team in teams){
+  print(team)
   tmp_stats <- GetNBASeasonTeamByYear(team, "2016")
   team_stats_2016[[team]] <- filter(tmp_stats, !is.na(Tm))
 }
@@ -76,3 +77,8 @@ pwr_rank <- group_by(results, team) %>%
             arrange(desc(fit))
 
 mc_rankings <- PlayoffsTheMonteCarloWay(pwr_rank, kSims = 1000)
+
+saveRDS(results, 
+        file = paste("2015/data/results-", Sys.Date(), ".rds", sep = ""))
+saveRDS(mc_rankings, 
+        file = paste("2015/data/mc-rank-", Sys.Date(), ".rds", sep = ""))
