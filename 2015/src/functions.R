@@ -34,7 +34,12 @@ ProcessSeasonStatsByGame <- function(team, game){
 }
 
 
-PlayoffProbabilitiesByCurrentRecord <- function(team, kGames = NULL, playoffs, stats){
+PlayoffProbabilitiesByCurrentRecord <- function(team, 
+                                                kGames = NULL, 
+                                                playoffs, 
+                                                stats,
+                                                year,
+                                                glm_list){
   if(is.null(kGames)){
     kGames <- dim(stats)[1]    
   }
@@ -42,9 +47,9 @@ PlayoffProbabilitiesByCurrentRecord <- function(team, kGames = NULL, playoffs, s
   stats_process$Playoffs <- NA
   if(team == "NOP") team <- "NOH"
   if(team == "CHO") team <- "CHA"
-  stats_process$Previous <- as.numeric(filter(playoffs, V1 == '2014', V2 == team) %>%
-                            select(V3))
-  team_pred <- predict(games_glm[[kGames]], newdata = data.frame(stats_process),
+  stats_process$Previous <- as.numeric(filter(playoffs, V1 == year, V2 == team) 
+                                       %>% select(V3))
+  team_pred <- predict(glm_list[[kGames]], newdata = data.frame(stats_process),
                        type = "link", se = T)[1:2]
   team_pred$kGames <- kGames
   return(team_pred)

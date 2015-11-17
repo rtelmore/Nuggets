@@ -12,7 +12,7 @@ library(plyr)
 team_stats <- readRDS(file = "2015/data/team_stats_2015.rds")
 team_stats_complete <- readRDS(file = "2015/data/team_stats_complete_2015.rds")
 team_matrix <- readRDS(file = "2015/data/team_matrix_2015.rds")
-games_glm <- readRDS(file = "2015/data/game_glm_2015.rds")
+games_glm <- readRDS(file = "2015/data/game_glm_reduced_2015.rds")
 
 teams <- c("ATL", "BOS", "BRK", "CHA", "CHI", "CLE", "DAL", "DEN", "DET", "GSW",
            "HOU", "IND", "LAC", "LAL", "MEM", "MIA", "MIL", "MIN", "NOP", "NYK",
@@ -34,9 +34,12 @@ playoffs_df <- read.csv("2015/data/playoffs.csv", header = F)
 playoffs_df <- as.tbl(playoffs_df)
 
 for (team in teams){
-  tmp <- PlayoffProbabilitiesByCurrentRecord(team, kGames = NULL,
+  tmp <- PlayoffProbabilitiesByCurrentRecord(team, 
+                                             kGames = NULL,
                                              playoffs_df, 
-                                             team_stats_2016[[team]])
+                                             team_stats_2016[[team]],
+                                             year = 2015,
+                                             glm_list = games_glm)
   league[league$team == team, 2:4] <- tmp
 }
 
@@ -60,7 +63,9 @@ for(team in teams){
     tmp <- PlayoffProbabilitiesByCurrentRecord(team, 
                                                kGames = game, 
                                                playoffs_df,
-                                               team_stats_2016[[team]])
+                                               team_stats_2016[[team]],
+                                               year = 2015,
+                                               glm_list = games_glm)
     results[counter, 1:3] <- c(team, conf, game)
     results[counter, 4:5] <- c(tmp$fit, tmp$se)
     counter = counter + 1
