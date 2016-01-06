@@ -68,7 +68,7 @@ p + geom_line() +
   geom_errorbar(width = .25) +
   facet_wrap(~ team, nrow = 5, ncol = 3) +
   scale_y_continuous("power ranking") +
-  scale_x_continuous(breaks = seq(0, nGames, 2), "games") +
+  scale_x_continuous(breaks = seq(0, nGames, 5), "games") +
   theme(legend.position = "none") +
   theme_bw()
 ggsave(file = paste("2015/fig/East-PR-", Sys.Date(), ".pdf", sep = ""),
@@ -83,7 +83,7 @@ p + geom_line() +
   geom_errorbar(width = .25) +
   facet_wrap(~ team, nrow = 5, ncol = 3) +
   scale_y_continuous("power ranking") +
-  scale_x_continuous(breaks = seq(0, nGames, 2), "games") +
+  scale_x_continuous(breaks = seq(0, nGames, 5), "games") +
   theme(legend.position = "none") +
   theme_bw()
 ggsave(file = paste("2015/fig/West-PR-", Sys.Date(), ".pdf", sep = ""),
